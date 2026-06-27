@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Analytics Dashboard — AZ Tech</title>
+  <meta name="description"
+    content="Dashboard analitik HR — AZ Tech | Visualisasi metrik Compensation & Benefits, Turnover, Rekrutmen, dan Performance Management">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=20260627">
+
+  <!-- ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- CountUp.js -->
+  <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+
+  <!-- STICKY HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <img src="/logo.png" alt="AZ Tech" class="logo">
+      <div>
+        <div class="header-title">HR Analytics Dashboard</div>
+        <div class="header-sub">AZ Tech — Human Resources Intelligence</div>
+      </div>
+    </div>
+
+    <div class="header-right-group">
+      <!-- TAB NAV -->
+      <div class="tabs" id="tab-nav">
+        <button class="tab active" data-tab="overview">Ringkasan</button>
+        <button class="tab" data-tab="compensation">Compensation & Benefits</button>
+        <button class="tab" data-tab="turnover">Turnover</button>
+        <button class="tab" data-tab="recruitment">Rekrutmen</button>
+        <button class="tab" data-tab="performance">Performance</button>
+        <button class="tab" data-tab="table">Data Tabel</button>
+      </div>
+
+      <button class="theme-toggle" id="theme-toggle" title="Ubah Tema (Gelap/Terang)">
+        <span class="theme-icon" id="theme-icon">&#9790;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Page Navigation Buttons -->
+  <button class="nav-btn nav-btn-left" id="btn-nav-prev" title="Previous Page">
+    <i data-lucide="chevron-left"></i>
+  </button>
+  <button class="nav-btn nav-btn-right" id="btn-nav-next" title="Next Page">
+    <i data-lucide="chevron-right"></i>
+  </button>
+
+  <div class="app">
+
+    <div class="content">
+
+      <!-- LOADING STATE -->
+      <div class="loading-state" id="loading-state">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">HR Analytics Dashboard</div>
+        <div class="loading-sub" id="loading-sub">Initializing...</div>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div class="error-state" id="error-state" style="display:none;">
+        <div class="error-icon">&#9888;&#65039;</div>
+        <div class="error-title" id="error-title">Failed to load data</div>
+        <div class="error-desc" id="error-desc"></div>
+        <button class="btn-retry" id="btn-retry">Coba Lagi</button>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpi-row" id="kpi-row" style="display:none;">
+        <div class="kpi">
+          <div class="kpi-icon"><i data-lucide="users"></i></div>
+          <div class="kpi-label">Total Karyawan Aktif</div>
+          <div class="kpi-value" id="kpi-active">&mdash;</div>
+          <div class="kpi-sub" id="kpi-active-sub">Loading...</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-icon"><i data-lucide="banknote"></i></div>
+          <div class="kpi-label">Avg Kompensasi</div>
+          <div class="kpi-value" id="kpi-avg-comp">&mdash;</div>
+          <div class="kpi-sub" id="kpi-avg-comp-sub">Loading...</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-icon"><i data-lucide="trending-down"></i></div>
+          <div class="kpi-label">Turnover Rate (YTD)</div>
+          <div class="kpi-value" id="kpi-turnover">&mdash;</div>
+          <div class="kpi-sub" id="kpi-turnover-sub">Loading...</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-icon"><i data-lucide="clock"></i></div>
+          <div class="kpi-label">Avg Time-to-Fill</div>
+          <div class="kpi-value" id="kpi-ttf">&mdash;</div>
+          <div class="kpi-sub" id="kpi-ttf-sub">Loading...</div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 1: RINGKASAN (Overview) -->
+      <!-- ========================================= -->
+      <div class="panel active" id="tab-overview">
+        <div class="filter-bar visible" style="margin-bottom: 20px;">
+          <div class="fg">
+            <div class="filter-label">Departemen</div>
+            <select id="filter-dept-overview">
+              <option value="">Semua Departemen</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Lokasi</div>
+            <select id="filter-lokasi-overview">
+              <option value="">Semua Lokasi</option>
+            </select>
+          </div>
+          <button class="btn-reset" id="btn-reset-overview">Reset</button>
+        </div>
+        <div class="chart-grid">
+          <div class="card span2">
+            <div class="card-title">Distribusi Karyawan per Departemen</div>
+            <div class="card-desc">Jumlah karyawan aktif di setiap departemen</div>
+            <div class="chart-box" id="chart-dept-dist" style="height:400px;"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Distribusi Gender</div>
+            <div class="card-desc">Rasio karyawan laki-laki dan perempuan</div>
+            <div class="chart-box" id="chart-gender-dist"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Distribusi Level Jabatan</div>
+            <div class="card-desc">Proporsi karyawan per level (Junior – Executive)</div>
+            <div class="chart-box" id="chart-level-dist"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Trend Headcount Bulanan</div>
+            <div class="card-desc">Jumlah total karyawan per bulan (Jan 2024 – Jun 2026)</div>
+            <div class="chart-box" id="chart-headcount-trend" style="height:380px;"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Distribusi per Lokasi</div>
+            <div class="card-desc">Jumlah karyawan aktif per kota</div>
+            <div class="chart-box" id="chart-location-dist"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Komposisi Usia Karyawan</div>
+            <div class="card-desc">Distribusi kelompok usia karyawan aktif</div>
+            <div class="chart-box" id="chart-age-dist"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 2: COMPENSATION & BENEFITS -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-compensation">
+        <div class="filter-bar visible" style="margin-bottom: 20px;">
+          <div class="fg">
+            <div class="filter-label">Departemen</div>
+            <select id="filter-dept-comp">
+              <option value="">Semua Departemen</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Level</div>
+            <select id="filter-level-comp">
+              <option value="">Semua Level</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Lokasi</div>
+            <select id="filter-lokasi-comp">
+              <option value="">Semua Lokasi</option>
+            </select>
+          </div>
+          <button class="btn-reset" id="btn-reset-comp">Reset</button>
+        </div>
+        <div class="chart-grid">
+          <div class="card span2">
+            <div class="card-title">Rata-rata Gaji Pokok per Departemen</div>
+            <div class="card-desc">Average base salary karyawan aktif di setiap departemen</div>
+            <div class="chart-box" id="chart-avg-salary-dept" style="height:400px;"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Distribusi Total Kompensasi</div>
+            <div class="card-desc">Sebaran total kompensasi (gaji + tunjangan + bonus)</div>
+            <div class="chart-box" id="chart-comp-distribution"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Kompensasi per Level</div>
+            <div class="card-desc">Avg total kompensasi per level jabatan</div>
+            <div class="chart-box" id="chart-comp-level"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Komposisi Kompensasi per Departemen</div>
+            <div class="card-desc">Perbandingan rata-rata gaji pokok, tunjangan, dan bonus tahunan</div>
+            <div class="chart-box" id="chart-comp-composition" style="height:400px;"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Gender Pay Gap Analysis</div>
+            <div class="card-desc">Perbandingan rata-rata total kompensasi laki-laki vs perempuan per departemen</div>
+            <div class="chart-box" id="chart-gender-pay" style="height:400px;"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Top 10 Karyawan — Kompensasi Tertinggi</div>
+            <div class="card-desc">Karyawan aktif dengan total kompensasi terbesar</div>
+            <div class="chart-box" id="chart-top-comp" style="height:420px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 3: TURNOVER -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-turnover">
+        <div class="filter-bar visible" style="margin-bottom: 20px;">
+          <div class="fg">
+            <div class="filter-label">Departemen</div>
+            <select id="filter-dept-turnover">
+              <option value="">Semua Departemen</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Alasan Keluar</div>
+            <select id="filter-alasan-turnover">
+              <option value="">Semua Alasan</option>
+            </select>
+          </div>
+          <button class="btn-reset" id="btn-reset-turnover">Reset</button>
+        </div>
+        <div class="chart-grid">
+          <div class="card span2">
+            <div class="card-title">Trend Turnover Rate Bulanan</div>
+            <div class="card-desc">Persentase turnover dan jumlah karyawan keluar per bulan</div>
+            <div class="chart-box" id="chart-turnover-trend" style="height:400px;"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Alasan Keluar</div>
+            <div class="card-desc">Proporsi alasan karyawan meninggalkan perusahaan</div>
+            <div class="chart-box" id="chart-exit-reasons"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Retention Rate per Level</div>
+            <div class="card-desc">Persentase karyawan yang bertahan per level jabatan</div>
+            <div class="chart-box" id="chart-retention-level"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Turnover Rate per Departemen</div>
+            <div class="card-desc">Persentase karyawan yang keluar dari total per departemen</div>
+            <div class="chart-box" id="chart-turnover-dept" style="height:400px;"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Rata-rata Masa Kerja (Keluar)</div>
+            <div class="card-desc">Avg lama bekerja karyawan yang telah keluar per departemen</div>
+            <div class="chart-box" id="chart-tenure-exit"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Heatmap Turnover</div>
+            <div class="card-desc">Intensitas karyawan keluar per bulan × departemen</div>
+            <div class="chart-box" id="chart-turnover-heatmap"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 4: REKRUTMEN -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-recruitment">
+        <div class="filter-bar visible" style="margin-bottom: 20px;">
+          <div class="fg">
+            <div class="filter-label">Departemen</div>
+            <select id="filter-dept-recruit">
+              <option value="">Semua Departemen</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Sumber</div>
+            <select id="filter-sumber-recruit">
+              <option value="">Semua Sumber</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Status</div>
+            <select id="filter-status-recruit">
+              <option value="">Semua Status</option>
+              <option value="Open">Open</option>
+              <option value="Closed">Closed</option>
+              <option value="On Hold">On Hold</option>
+            </select>
+          </div>
+          <button class="btn-reset" id="btn-reset-recruit">Reset</button>
+        </div>
+        <div class="chart-grid">
+          <div class="card span2">
+            <div class="card-title">Recruitment Funnel</div>
+            <div class="card-desc">Pipeline rekrutmen: Pelamar → Shortlisted → Interview → Offered → Hired</div>
+            <div class="chart-box" id="chart-funnel" style="height:420px;"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Sumber Rekrutmen Efektif</div>
+            <div class="card-desc">Proporsi hired berdasarkan sumber rekrutmen</div>
+            <div class="chart-box" id="chart-recruit-source"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Offer Acceptance Rate</div>
+            <div class="card-desc">Persentase kandidat yang menerima offer</div>
+            <div class="chart-box" id="chart-offer-acceptance"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Time-to-Fill per Departemen</div>
+            <div class="card-desc">Rata-rata hari yang dibutuhkan untuk mengisi posisi per departemen</div>
+            <div class="chart-box" id="chart-time-to-fill" style="height:400px;"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Trend Hiring Bulanan</div>
+            <div class="card-desc">Jumlah karyawan baru yang direkrut per bulan</div>
+            <div class="chart-box" id="chart-hiring-trend" style="height:380px;"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Pipeline Rekrutmen per Departemen</div>
+            <div class="card-desc">Status posisi (Open / Closed / On Hold) per departemen</div>
+            <div class="chart-box" id="chart-pipeline-status" style="height:400px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 5: PERFORMANCE MANAGEMENT -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-performance">
+        <div class="filter-bar visible" style="margin-bottom: 20px;">
+          <div class="fg">
+            <div class="filter-label">Departemen</div>
+            <select id="filter-dept-perf">
+              <option value="">Semua Departemen</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Level</div>
+            <select id="filter-level-perf">
+              <option value="">Semua Level</option>
+            </select>
+          </div>
+          <button class="btn-reset" id="btn-reset-perf">Reset</button>
+        </div>
+        <div class="chart-grid">
+          <div class="card span2">
+            <div class="card-title">Distribusi Rating Performance</div>
+            <div class="card-desc">Jumlah karyawan aktif per kategori rating</div>
+            <div class="chart-box" id="chart-rating-dist" style="height:380px;"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Performance per Departemen</div>
+            <div class="card-desc">Rata-rata performance score per departemen (radar chart)</div>
+            <div class="chart-box" id="chart-perf-radar"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Performance vs Kompensasi</div>
+            <div class="card-desc">Korelasi performance score terhadap total kompensasi</div>
+            <div class="chart-box" id="chart-perf-vs-comp"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Trend Rata-rata Performance Score</div>
+            <div class="card-desc">Pergerakan average performance score per bulan</div>
+            <div class="chart-box" id="chart-perf-trend" style="height:380px;"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Top 15 Performers</div>
+            <div class="card-desc">Karyawan aktif dengan performance score tertinggi</div>
+            <div class="chart-box" id="chart-top-performers" style="height:480px;"></div>
+          </div>
+          <div class="card span2">
+            <div class="card-title">Bell Curve — Distribusi Performance</div>
+            <div class="card-desc">Distribusi normal performance score (bell curve analysis)</div>
+            <div class="chart-box" id="chart-bell-curve" style="height:380px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 6: DATA TABEL -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-table">
+        <div class="filter-bar visible" style="margin-bottom: 20px;">
+          <div class="fg">
+            <div class="filter-label">Dataset</div>
+            <select id="table-filter-dataset">
+              <option value="employees">Data Karyawan</option>
+              <option value="recruitment">Data Rekrutmen</option>
+              <option value="monthly">Metrik Bulanan</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Departemen</div>
+            <select id="table-filter-departemen">
+              <option value="">Semua Departemen</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Lokasi</div>
+            <select id="table-filter-lokasi">
+              <option value="">Semua Lokasi</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="filter-label">Status</div>
+            <select id="table-filter-status">
+              <option value="">Semua Status</option>
+            </select>
+          </div>
+          <div class="fg" style="min-width: 180px;">
+            <div class="filter-label">Cari</div>
+            <input type="text" id="table-filter-search" placeholder="Ketik pencarian...">
+          </div>
+          <button class="btn-reset" id="btn-reset-table">Reset</button>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead id="table-head">
+                <tr>
+                  <th>Loading data...</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <tr>
+                  <td class="empty">Generating data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pager" id="pager">
+            <div class="pg-info" id="pg-info"></div>
+            <div class="pg-btns">
+              <button class="pg-btn" id="btn-prev">Sebelumnya</button>
+              <button class="pg-btn" id="btn-next">Selanjutnya</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- App Logic -->
+  <script type="module" src="js/main.js?v=20260627"></script>
+</body>
+
+</html>
