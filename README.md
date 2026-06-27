@@ -62,19 +62,40 @@ This project deviates from generic dashboard designs by implementing a striking,
 
 ## 💻 Getting Started
 
-### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) installed.
+### Option 1: Run Locally (Node.js)
 
-### Installation
-1. Install dependencies:
+1. Make sure you have [Node.js](https://nodejs.org/) installed.
+2. Install dependencies:
    ```bash
    npm install
    ```
-
-2. Run the local development server:
+3. Run the local development server:
    ```bash
    npm run dev
    ```
-
-3. Open your browser and navigate to:
+4. Open your browser and navigate to:
    👉 **`http://localhost:3001`**
+
+### Option 2: Run with Docker (Recommended for Deployment)
+
+You can run the dashboard in a containerized environment using Docker and Docker Compose:
+
+1. **Build and Start Container:**
+   ```bash
+   docker compose up --build -d
+   ```
+   *This starts the container in detached mode on port `8080`.*
+
+2. **Access the Dashboard:**
+   Open your browser and navigate to:
+   👉 **`http://localhost:8080`**
+
+3. **Check Container Status:**
+   ```bash
+   docker compose ps
+   ```
+
+4. **Stop Container:**
+   ```bash
+   docker compose down
+   ```

@@ -18,6 +18,7 @@ RUN addgroup -g 1001 -S nodejs && \
     adduser -S appuser -u 1001
 
 ENV NODE_ENV=production
+ENV PORT=3000
 
 # Copy dependencies from stage 1
 COPY --from=deps /app/node_modules ./node_modules
