@@ -1,88 +1,80 @@
-# HR Analytics Dashboard — AZ Tech
+# AZ Tech — HR Analytics Mathical Neubrutalist Dashboard
 
-Dashboard analitik interaktif untuk menganalisis metrik fungsi Sumber Daya Manusia (HR), mencakup **Compensation & Benefits**, **Turnover**, **Rekrutmen**, dan **Performance Management**.
+An interactive, high-fidelity HR Analytics Dashboard built with a bold, mathematical-inspired neubrutalist design system. It visualizes key organizational metrics across compensation, benefits, turnover, recruitment, and performance management.
 
-## 🚀 Tech Stack
+---
 
-| Layer | Technology |
-|-------|-----------|
-| **Runtime** | Node.js >= 18.0.0 |
-| **Backend** | Express.js (static server) |
-| **Frontend** | HTML5, Vanilla CSS (Custom Design System) |
-| **Charts** | Apache ECharts v5.5.1 |
-| **Animation** | GSAP v3.12.5 + ScrollTrigger |
-| **Counter** | CountUp.js v2.8.0 |
-| **Icons** | Lucide Icons v0.344.0 |
-| **Typography** | Google Fonts (Outfit & Inter) |
-| **Infra** | Docker, Vercel |
+## 🎨 Design Philosophy & Visual System
 
-## 📊 Dashboard Features
+This project deviates from generic dashboard designs by implementing a striking, premium **Mathical Neubrutalist UI**:
+*   **Harmonious Color Palette:** Built using high-contrast, neubrutalist-specific colors: Electric Purple (`#5B42FF`), Bubblegum Pink (`#FF6BE5`), Sand Cream (`#E6E1B5`), and Electric Lime (`#D5F34A`) set against a deep zinc-black background (`#09090b`).
+*   **Chunky Typography:** Features the bold display font **KaioTRIAL** (Super/Black/Bold weights) for titles, cards, and charts, establishing a fun, chunky, and math-like identity.
+*   **Custom Iconography:** Sidebar navigation features custom **Streamline Pixel-Art** icons (`Business-Products-Data-File-Bars`, `Business-Products-Cash-User-Man-Message`, etc.) with dynamic color transitions (`fill="currentColor"`) matching the active menu states.
+*   **Sticky Blurred Header:** The top-controls panel floats at the top of the content area (`position: sticky`) with a translucent background and **`backdrop-filter: blur(20px)`**, letting cards slide smoothly underneath.
+*   **Refined Layout Spacing:** Removed cluttered Strategy/Utilities panels, replaced by a centralized, dynamic filter bar on the left side-by-side with a compact KPI ribbon on the right.
 
-- **6 Tab** — Ringkasan, Compensation, Turnover, Rekrutmen, Performance, Data Tabel
-- **30+ Chart Interaktif** — Bar, Line, Pie, Radar, Scatter, Funnel, Gauge, Heatmap
-- **4 KPI Cards** — Animated counters (Total Karyawan, Avg Kompensasi, Turnover Rate, Time-to-Fill)
-- **Dark/Light Mode** — Toggle dengan animasi smooth
-- **Glassmorphism** — Efek blur dan transparansi modern
-- **Filter Interaktif** — Per tab: Departemen, Level, Lokasi, Status
-- **Data Table** — Sortable, paginated, searchable
-- **Responsive** — Desktop, tablet, mobile
-- **500+ Data Dummy** — Generated client-side secara deterministik
+---
 
-## 🏃 Quick Start
+## 🚀 Key Features
 
-```bash
-# Install dependencies
-npm install
+*   **Real-time Filters:** Dynamically filter data (department, location, job level, source, exit reasons) with dropdowns styled in KaioTRIAL typography and high-contrast neubrutalist pop shadows.
+*   **ECharts Visualizations:** Hand-crafted, theme-aware neubrutalist charts including bar composition stacks, pay gap grids, recruitment pipelines, and performance bell curves.
+*   **Smooth Animations:** Staggered card entrance animations powered by **GSAP** (GreenSock) that trigger flawlessly across tab transitions.
+*   **Dynamic Counting:** KPI ribbon values animate smoothly on load using **CountUp.js**.
+*   **Responsive Layout:** Fully compatible with desktop, tablet, and mobile screens.
 
-# Start dev server (with auto-reload)
-npm run dev
+---
 
-# Start production server
-npm start
-```
+## 🛠️ Technologies Used
 
-Buka `http://localhost:3000` di browser.
+*   **Core:** Vanilla HTML5, CSS3, and ES6 JavaScript Modules.
+*   **Visualizations:** Apache ECharts (v5.5.1).
+*   **Animations:** GSAP (v3.12.5).
+*   **Dynamic Metrices:** CountUp.js (v2.8.0).
+*   **Icons:** Streamline Pixel Icons (Primary) & Lucide Icons (Fallback).
 
-## 🐳 Docker
+---
 
-```bash
-# Build & run
-docker-compose up --build
-
-# Akses di http://localhost:8080
-```
-
-## ☁️ Vercel Deployment
-
-Push ke GitHub, connect ke Vercel — konfigurasi sudah tersedia di `vercel.json`.
-
-## 📁 Project Structure
+## 📂 Project Structure
 
 ```
 ├── api/
-│   └── index.js              # Express server
+│   └── index.js                 # API and server routing
 ├── public/
-│   ├── index.html             # Main HTML (6 tab)
-│   ├── style.css              # Design system
-│   ├── logo.png               # AZ Tech logo
-│   └── js/
-│       ├── main.js            # Entry point
-│       ├── state.js           # Global state
-│       ├── config.js          # Theme & chart config
-│       ├── utils.js           # Helpers
-│       ├── filters.js         # Filter population
-│       ├── dummyData.js       # Data generator (500+ records)
-│       ├── charts/
-│       │   ├── overviewCharts.js
-│       │   ├── compensationCharts.js
-│       │   ├── turnoverCharts.js
-│       │   ├── recruitmentCharts.js
-│       │   └── performanceCharts.js
-│       └── components/
-│           └── dataTable.js
-├── Dockerfile
-├── docker-compose.yml
-├── vercel.json
+│   ├── fonts/                   # KaioTRIAL font files
+│   ├── js/
+│   │   ├── charts/              # ECharts render modules
+│   │   ├── components/          # Reusable UI components (data tables)
+│   │   ├── config.js            # Theme and helper configs
+│   │   ├── dummyData.js         # Dummy HR data generator
+│   │   ├── filters.js           # Filter interaction listeners
+│   │   ├── main.js              # Application core & tab controller
+│   │   ├── state.js             # Shared state object
+│   │   └── utils.js             # Utility & formatting helpers
+│   ├── index.html               # Main dashboard document
+│   ├── style.css                # Neubrutalist design system stylesheet
+│   └── logo.png                 # AZ Tech branding logo
 ├── package.json
 └── README.md
 ```
+
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed.
+
+### Installation
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Run the local development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Open your browser and navigate to:
+   👉 **`http://localhost:3001`**
