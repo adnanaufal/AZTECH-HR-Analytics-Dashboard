@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Analytics Dashboard — AZ Tech</title>
+  <meta name="description"
+    content="Dashboard analitik HR — AZ Tech | Visualisasi metrik Compensation & Benefits, Turnover, Rekrutmen, dan Performance Management bergaya Mathical Neubrutalist UI">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/style.css?v=20260627">
+
+  <!-- ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- CountUp.js -->
+  <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+
+  <!-- MAIN LAYOUT CONTAINER -->
+  <div class="mathical-app">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <div class="brand-title">AZ TECH</div>
+        <nav class="sidebar-menu" id="tab-nav">
+          <button class="menu-item tab active" data-tab="overview">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="Business-Products-Data-File-Bars--Streamline-Pixel" height="32" width="32">
+              <g>
+                <path d="M27.43 6.09h-4.57V1.52h1.52V0H3.05v32h25.9V4.57h-1.52Zm0 24.39H4.57V1.52h16.76v6.1h6.1Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M25.91 3.05h1.52v1.52h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M24.38 1.52h1.53v1.53h-1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m21.33 22.86 -1.52 0 0 -9.15 -3.05 0 0 9.15 -1.52 0 0 -6.1 -3.05 0 0 6.1 -4.57 0 0 -3.05 1.52 0 0 -1.52 -1.52 0 0 -3.05 1.52 0 0 -1.53 -1.52 0 0 -3.04 -1.52 0 0 13.71 19.81 0 0 -1.52 -1.53 0 0 -7.62 -3.05 0 0 7.62z" fill="currentColor" stroke-width="1"></path>
+              </g>
+            </svg>
+            RINGKASAN
+          </button>
+          <button class="menu-item tab" data-tab="compensation">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="Business-Products-Cash-User-Man-Message--Streamline-Pixel" height="32" width="32">
+              <g>
+                <path d="M30.48 1.53H32v15.23h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M13.72 0h16.76v1.53H13.72Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M24.39 16.76h6.09v1.53h-6.09Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M24.39 10.67h1.52v3.05h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M24.39 6.1h1.52v1.52h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M22.86 18.29h1.53v1.52h-1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M21.34 19.81h1.52v1.53h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m21.34 15.24 0 1.52 1.52 0 0 -1.52 1.53 0 0 -1.52 -1.53 0 0 -3.05 1.53 0 0 -1.53 -1.53 0 0 -3.04 1.53 0 0 -1.53 -1.53 0 0 -1.52 -1.52 0 0 1.52 -1.53 0 0 1.53 1.53 0 0 3.04 -1.53 0 0 1.53 1.53 0 0 3.05 -1.53 0 0 1.52 1.53 0z" fill="currentColor" stroke-width="1"></path>
+                <path d="m18.29 18.29 -1.52 0 0 4.57 4.57 0 0 -1.52 -3.05 0 0 -3.05z" fill="currentColor" stroke-width="1"></path>
+                <path d="M18.29 12.19h1.52v1.53h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M18.29 6.1h1.52v3.04h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M15.24 30.48h3.05V32h-3.05Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M12.19 28.95h3.05v1.53h-3.05Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M12.19 25.91h1.53v1.52h-1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M12.19 1.53h1.53v9.14h-1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m4.58 27.43 0 1.52 3.04 0 0 3.05 1.53 0 0 -3.05 3.04 0 0 -1.52 -7.61 0z" fill="currentColor" stroke-width="1"></path>
+                <path d="M10.67 22.86h1.52v1.52h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M10.67 19.81h1.52v1.53h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M7.62 24.38h3.05v1.53H7.62Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M4.58 19.81H6.1v1.53H4.58Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M3.05 25.91h1.53v1.52H3.05Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M1.53 28.95h3.05v1.53H1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m3.05 18.29 1.53 0 0 -1.53 7.61 0 0 1.53 1.53 0 0 7.62 1.52 0 0 -10.67 -1.52 0 0 -1.52 -1.53 0 0 -1.53 -7.61 0 0 1.53 -1.53 0 0 1.52 -1.52 0 0 10.67 1.52 0 0 -7.62z" fill="currentColor" stroke-width="1"></path>
+                <path d="M0 30.48h1.53V32H0Z" fill="currentColor" stroke-width="1"></path>
+              </g>
+            </svg>
+            COMPENSATION
+          </button>
+          <button class="menu-item tab" data-tab="turnover">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="Interface-Essential-Signout-Logout--Streamline-Pixel" height="32" width="32">
+              <g>
+                <path d="m25.145 9.14 0 4.57 -6.1 0 0 3.05 6.1 0 0 4.57 1.52 0 0 -1.52 1.53 0 0 -1.52 1.52 0 0 -1.53 1.52 0 0 -3.05 -1.52 0 0 -1.52 -1.52 0 0 -1.52 -1.53 0 0 -1.53 -1.52 0z" fill="currentColor" stroke-width="1"></path>
+                <path d="M20.575 21.33h1.52v6.1h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M20.575 1.52h1.52v7.62h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m14.475 30.48 0 -1.53 6.1 0 0 -1.52 -6.1 0 0 -19.81 -1.52 0 0 22.86 1.52 0z" fill="currentColor" stroke-width="1"></path>
+                <path d="M8.385 30.48h4.57V32h-4.57Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.905 16.76h1.52v3.05h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.905 6.1h3.05v1.52h-3.05Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M5.335 28.95h3.05v1.53h-3.05Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M6.855 4.57h3.05V6.1h-3.05Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M2.285 27.43h3.05v1.52h-3.05Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M3.815 3.05h3.04v1.52h-3.04Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m2.285 0 0 1.52 -1.52 0 0 25.91 1.52 0 0 -24.38 1.53 0 0 -1.53 1.53 0 0 -1.53 16.76 0 0 -1.52 -18.29 0z" fill="currentColor" stroke-width="1"></path>
+              </g>
+            </svg>
+            TURNOVER
+          </button>
+          <button class="menu-item tab" data-tab="recruitment">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="Search-User--Streamline-Pixel" height="32" width="32">
+              <g>
+                <path d="M29.72 23.62h-1.53V22.1h-1.52v-1.53h-1.53v-3.04h-1.52v3.04H22.1v1.53h-1.53v1.52h-3.04v1.52h3.04v1.53h1.53v1.52h1.52v1.53h1.52v1.52h4.58v-1.52h1.52v-4.58h-1.52Zm0 4.57h-1.53v-1.52h-1.52v-1.53h-1.53v-1.52h1.53v1.52h1.52v1.53h1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M25.14 9.91h1.53v7.62h-1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M23.62 6.86h1.52v3.05h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M22.1 5.34h1.52v1.52H22.1Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M20.57 3.81h1.53v1.53h-1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M17.53 19.05h1.52v1.52h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M17.53 2.29h3.04v1.52h-3.04Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.91 20.57h7.62v1.53H9.91Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M16 12.95h1.53V16H16Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.91 25.14h7.62v1.53H9.91Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M11.43 17.53H16v1.52h-4.57Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.91 0.76h7.62v1.53H9.91Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.91 12.95h1.52V16H9.91Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M6.86 23.62h3.05v1.52H6.86Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M8.38 19.05h1.53v1.52H8.38Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M6.86 2.29h3.05v1.52H6.86Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m8.38 11.43 1.53 0 0 -1.52 7.62 0 0 1.52 1.52 0 0 7.62 1.52 0 0 -10.67 -1.52 0 0 -1.52 -1.52 0 0 -1.52 -7.62 0 0 1.52 -1.53 0 0 1.52 -1.52 0 0 10.67 1.52 0 0 -7.62z" fill="currentColor" stroke-width="1"></path>
+                <path d="M5.33 22.1h1.53v1.52H5.33Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M5.33 3.81h1.53v1.53H5.33Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M3.81 20.57h1.52v1.53H3.81Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M3.81 5.34h1.52v1.52H3.81Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M2.29 17.53h1.52v3.04H2.29Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M2.29 6.86h1.52v3.05H2.29Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M0.76 9.91h1.53v7.62H0.76Z" fill="currentColor" stroke-width="1"></path>
+              </g>
+            </svg>
+            REKRUTMEN
+          </button>
+          <button class="menu-item tab" data-tab="performance">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="Entertainment-Events-Hobbies-Reward-Winner-Talent--Streamline-Pixel" height="32" width="32">
+              <g>
+                <path d="M22.86 18.28v-4.57H9.14v4.57H0V32h32V18.28ZM9.14 30.47H1.53V19.81h7.61Zm12.19 0H10.67V15.24h10.66Zm9.15 0h-7.62V19.81h7.62Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m28.95 21.33 -4.57 0 0 1.53 3.05 0 0 1.52 -3.05 0 0 1.52 3.05 0 0 1.53 -3.05 0 0 1.52 4.57 0 0 -7.62z" fill="currentColor" stroke-width="1"></path>
+                <path d="M25.91 6.09h3.04v1.53h-3.04Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M24.38 0h1.53v1.52h-1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M22.86 1.52h1.52v1.53h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m18.29 22.86 -1.53 0 0 -6.1 -3.04 0 0 1.52 1.52 0 0 4.58 -1.52 0 0 1.52 4.57 0 0 -1.52z" fill="currentColor" stroke-width="1"></path>
+                <path d="M15.24 0h1.52v3.05h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.14 4.57v6.09h1.53v1.53h10.66v-1.53h1.53V4.57h-1.53v1.52h-1.52v1.53h-1.52V6.09h-1.53V4.57h-1.52v1.52h-1.52v1.53h-1.53V6.09h-1.52V4.57Zm9.15 4.57h1.52v1.52h-1.52Zm-3.05 0h1.52v1.52h-1.52Zm-3.05 0h1.53v1.52h-1.53Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M7.62 1.52h1.52v1.53H7.62Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M6.1 0h1.52v1.52H6.1Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m7.62 27.43 -3.05 0 0 -1.53 3.05 0 0 -4.57 -4.57 0 0 1.53 3.05 0 0 1.52 -3.05 0 0 4.57 4.57 0 0 -1.52z" fill="currentColor" stroke-width="1"></path>
+                <path d="M3.05 6.09H6.1v1.53H3.05Z" fill="currentColor" stroke-width="1"></path>
+              </g>
+            </svg>
+            PERFORMANCE
+          </button>
+          <button class="menu-item tab" data-tab="table">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="Interface-Essential-List--Streamline-Pixel" height="32" width="32">
+              <g>
+                <path d="M29.72 23.62h1.52v3.05h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M29.72 14.47h1.52v3.05h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M29.72 5.33h1.52v3.05h-1.52Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M11.43 26.67h18.29v1.52H11.43Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M11.43 17.52h18.29v1.53H11.43Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M11.43 8.38h18.29V9.9H11.43Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M11.43 22.09h18.29v1.53H11.43Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M11.43 12.95h18.29v1.52H11.43Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M11.43 3.81h18.29v1.52H11.43Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.91 23.62h1.52v3.05H9.91Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.91 14.47h1.52v3.05H9.91Z" fill="currentColor" stroke-width="1"></path>
+                <path d="M9.91 5.33h1.52v3.05H9.91Z" fill="currentColor" stroke-width="1"></path>
+                <path d="m0.76 26.67 1.53 0 0 1.52 3.05 0 0 -1.52 1.52 0 0 -3.05 -1.52 0 0 -1.53 -3.05 0 0 1.53 -1.53 0 0 3.05z" fill="currentColor" stroke-width="1"></path>
+                <path d="m0.76 17.52 1.53 0 0 1.53 3.05 0 0 -1.53 1.52 0 0 -3.05 -1.52 0 0 -1.52 -3.05 0 0 1.52 -1.53 0 0 3.05z" fill="currentColor" stroke-width="1"></path>
+                <path d="m2.29 5.33 -1.53 0 0 3.05 1.53 0 0 1.52 3.05 0 0 -1.52 1.52 0 0 -3.05 -1.52 0 0 -1.52 -3.05 0 0 1.52z" fill="currentColor" stroke-width="1"></path>
+              </g>
+            </svg>
+            DATA TABEL
+          </button>
+        </nav>
+      </div>
+      <div class="user-profile-circle">L</div>
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT CONTAINER -->
+    <main class="main-container">
+
+      <!-- TOP CONTROL GRID (FILTER BAR + KPI RIBBON) -->
+      <div class="top-controls-grid">
+        <!-- Left Side: Filter wrapper -->
+        <div class="filter-wrapper" id="global-filter-wrapper">
+          
+          <!-- Overview Filters -->
+          <div class="filter-bar active" id="fb-overview">
+            <div class="fg">
+              <div class="filter-label">Departemen</div>
+              <select id="filter-dept-overview" class="custom-select">
+                <option value="">Semua Departemen</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Lokasi</div>
+              <select id="filter-lokasi-overview" class="custom-select">
+                <option value="">Semua Lokasi</option>
+              </select>
+            </div>
+            <button class="btn-pop-reset" id="btn-reset-overview">Reset</button>
+          </div>
+
+          <!-- Compensation Filters -->
+          <div class="filter-bar" id="fb-compensation">
+            <div class="fg">
+              <div class="filter-label">Departemen</div>
+              <select id="filter-dept-comp" class="custom-select">
+                <option value="">Semua Departemen</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Level</div>
+              <select id="filter-level-comp" class="custom-select">
+                <option value="">Semua Level</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Lokasi</div>
+              <select id="filter-lokasi-comp" class="custom-select">
+                <option value="">Semua Lokasi</option>
+              </select>
+            </div>
+            <button class="btn-pop-reset" id="btn-reset-comp">Reset</button>
+          </div>
+
+          <!-- Turnover Filters -->
+          <div class="filter-bar" id="fb-turnover">
+            <div class="fg">
+              <div class="filter-label">Departemen</div>
+              <select id="filter-dept-turnover" class="custom-select">
+                <option value="">Semua Departemen</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Alasan Keluar</div>
+              <select id="filter-alasan-turnover" class="custom-select">
+                <option value="">Semua Alasan</option>
+              </select>
+            </div>
+            <button class="btn-pop-reset" id="btn-reset-turnover">Reset</button>
+          </div>
+
+          <!-- Recruitment Filters -->
+          <div class="filter-bar" id="fb-recruitment">
+            <div class="fg">
+              <div class="filter-label">Departemen</div>
+              <select id="filter-dept-recruit" class="custom-select">
+                <option value="">Semua Departemen</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Sumber</div>
+              <select id="filter-sumber-recruit" class="custom-select">
+                <option value="">Semua Sumber</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Status</div>
+              <select id="filter-status-recruit" class="custom-select">
+                <option value="">Semua Status</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+                <option value="On Hold">On Hold</option>
+              </select>
+            </div>
+            <button class="btn-pop-reset" id="btn-reset-recruit">Reset</button>
+          </div>
+
+          <!-- Performance Filters -->
+          <div class="filter-bar" id="fb-performance">
+            <div class="fg">
+              <div class="filter-label">Departemen</div>
+              <select id="filter-dept-perf" class="custom-select">
+                <option value="">Semua Departemen</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Level</div>
+              <select id="filter-level-perf" class="custom-select">
+                <option value="">Semua Level</option>
+              </select>
+            </div>
+            <button class="btn-pop-reset" id="btn-reset-perf">Reset</button>
+          </div>
+
+          <!-- Data Tabel Filters -->
+          <div class="filter-bar" id="fb-table">
+            <div class="fg">
+              <div class="filter-label">Dataset</div>
+              <select id="table-filter-dataset" class="custom-select">
+                <option value="employees">Data Karyawan</option>
+                <option value="recruitment">Data Rekrutmen</option>
+                <option value="monthly">Metrik Bulanan</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Departemen</div>
+              <select id="table-filter-departemen" class="custom-select">
+                <option value="">Semua Departemen</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Lokasi</div>
+              <select id="table-filter-lokasi" class="custom-select">
+                <option value="">Semua Lokasi</option>
+              </select>
+            </div>
+            <div class="fg">
+              <div class="filter-label">Status</div>
+              <select id="table-filter-status" class="custom-select">
+                <option value="">Semua Status</option>
+              </select>
+            </div>
+            <div class="fg" style="min-width: 140px;">
+              <div class="filter-label">Cari</div>
+              <input type="text" id="table-filter-search" class="custom-select" style="background: rgba(0,0,0,0.25); border: 2px solid #000;" placeholder="Ketik pencarian...">
+            </div>
+            <button class="btn-pop-reset" id="btn-reset-table">Reset</button>
+          </div>
+
+        </div>
+
+        <!-- Right Side: CREAM KPI RIBBON -->
+        <div class="kpi-ribbon" id="kpi-row">
+          <div class="metric-item">
+            <div class="m-label">Total Karyawan Aktif</div>
+            <div class="m-value" id="kpi-active">&mdash;</div>
+            <div class="m-badge gain" id="kpi-active-sub">Loading...</div>
+          </div>
+          <div class="metric-item">
+            <div class="m-label">Avg Kompensasi</div>
+            <div class="m-value" id="kpi-avg-comp">&mdash;</div>
+            <div class="m-badge" id="kpi-avg-comp-sub">Loading...</div>
+          </div>
+          <div class="metric-item">
+            <div class="m-label">Turnover Rate (YTD)</div>
+            <div class="m-value" id="kpi-turnover">&mdash;</div>
+            <div class="m-badge loss" id="kpi-turnover-sub">Loading...</div>
+          </div>
+          <div class="metric-item">
+            <div class="m-label">Avg Time-to-Fill</div>
+            <div class="m-value" id="kpi-ttf">&mdash;</div>
+            <div class="m-badge" id="kpi-ttf-sub">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOADING STATE -->
+      <div class="loading-state" id="loading-state">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">HR Analytics Dashboard</div>
+        <div class="loading-sub" id="loading-sub">Initializing Mathical UI System...</div>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div class="error-state" id="error-state" style="display:none;">
+        <div class="error-icon">&#9888;&#65039;</div>
+        <div class="error-title" id="error-title">Failed to load data</div>
+        <div class="error-desc" id="error-desc"></div>
+        <button class="btn-retry" id="btn-retry">Coba Lagi</button>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 1: RINGKASAN (Overview) -->
+      <!-- ========================================= -->
+      <div class="panel active" id="tab-overview">
+
+        <div class="chart-grid">
+          <div class="card cream span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">DISTRIBUSI STRUKTURAL KARYAWAN</div>
+                <div class="pop-title">Distribusi Karyawan per Departemen</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-dept-dist" style="height:400px;"></div>
+          </div>
+          <div class="card pink">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">PROPORSI DEMOGRAFIS</div>
+                <div class="pop-title">Distribusi Gender</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-gender-dist" style="height:350px;"></div>
+          </div>
+          <div class="card cream">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">STRUKTUR JABATAN</div>
+                <div class="pop-title">Distribusi Level Jabatan</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-level-dist" style="height:350px;"></div>
+          </div>
+          <div class="card purple span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">PERTUMBUHAN ORGANISASI</div>
+                <div class="pop-title">Trend Headcount Bulanan</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-headcount-trend" style="height:380px;"></div>
+          </div>
+          <div class="card cream">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">SEBARAN GEOGRAFIS</div>
+                <div class="pop-title">Distribusi per Lokasi</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-location-dist" style="height:350px;"></div>
+          </div>
+          <div class="card pink">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">PROFIL USIA KERJA</div>
+                <div class="pop-title">Komposisi Usia Karyawan</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-age-dist" style="height:350px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 2: COMPENSATION & BENEFITS -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-compensation">
+
+        <div class="chart-grid">
+          <div class="card cream span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">GAJI POKOK HIERARKI</div>
+                <div class="pop-title">Rata-rata Gaji Pokok per Departemen</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-avg-salary-dept" style="height:400px;"></div>
+          </div>
+          <div class="card pink">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">ANALISIS SEBARAN GAJI</div>
+                <div class="pop-title">Distribusi Total Kompensasi</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-comp-distribution" style="height:350px;"></div>
+          </div>
+          <div class="card cream">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">TINGKATAN GAJI KARYAWAN</div>
+                <div class="pop-title">Kompensasi per Level</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-comp-level" style="height:350px;"></div>
+          </div>
+          <div class="card purple span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">STRUKTUR TUNJANGAN & BONUS</div>
+                <div class="pop-title">Komposisi Kompensasi per Departemen</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-comp-composition" style="height:400px;"></div>
+          </div>
+          <div class="card cream span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">KESETARAAN GAJI GENDER</div>
+                <div class="pop-title">Gender Pay Gap Analysis</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-gender-pay" style="height:400px;"></div>
+          </div>
+          <div class="card pink span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">TOP EARNERS</div>
+                <div class="pop-title">Top 10 Karyawan — Kompensasi Tertinggi</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-top-comp" style="height:420px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 3: TURNOVER -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-turnover">
+
+        <div class="chart-grid">
+          <div class="card purple span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">ATRIBUSI TINGKAT TURNOVER</div>
+                <div class="pop-title">Trend Turnover Rate Bulanan</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-turnover-trend" style="height:400px;"></div>
+          </div>
+          <div class="card cream">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">KLASIFIKASI KELUAR</div>
+                <div class="pop-title">Alasan Keluar</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-exit-reasons" style="height:350px;"></div>
+          </div>
+          <div class="card pink">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">RETENSI TALENTA KERJA</div>
+                <div class="pop-title">Retention Rate per Level</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-retention-level" style="height:350px;"></div>
+          </div>
+          <div class="card cream span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">RUNTUHNYA SUMBER DAYA</div>
+                <div class="pop-title">Turnover Rate per Departemen</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-turnover-dept" style="height:400px;"></div>
+          </div>
+          <div class="card pink">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">MASA KERJA SEBELUM KELUAR</div>
+                <div class="pop-title">Rata-rata Masa Kerja (Keluar)</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-tenure-exit" style="height:350px;"></div>
+          </div>
+          <div class="card cream">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">ANALISIS WAKTU DAN STRUKTUR</div>
+                <div class="pop-title">Heatmap Turnover</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-turnover-heatmap" style="height:350px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 4: REKRUTMEN -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-recruitment">
+
+        <div class="chart-grid">
+          <div class="card cream span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">PROSES SELEKSI TALENTA</div>
+                <div class="pop-title">Recruitment Funnel</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-funnel" style="height:420px;"></div>
+          </div>
+          <div class="card pink">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">EFEKTIVITAS ALUR MASUK</div>
+                <div class="pop-title">Sumber Rekrutmen Efektif</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-recruit-source" style="height:350px;"></div>
+          </div>
+          <div class="card cream">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">TERIMA PENAWARAN</div>
+                <div class="pop-title">Offer Acceptance Rate</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-offer-acceptance" style="height:350px;"></div>
+          </div>
+          <div class="card purple span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">KECEPATAN PEMENUHAN KERJA</div>
+                <div class="pop-title">Time-to-Fill per Departemen</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-time-to-fill" style="height:400px;"></div>
+          </div>
+          <div class="card pink span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">KARYAWAN BARU YANG DITERIMA</div>
+                <div class="pop-title">Trend Hiring Bulanan</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-hiring-trend" style="height:380px;"></div>
+          </div>
+          <div class="card cream span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">POSISI AKTIF KARYAWAN</div>
+                <div class="pop-title">Pipeline Rekrutmen per Departemen</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-pipeline-status" style="height:400px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 5: PERFORMANCE MANAGEMENT -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-performance">
+
+        <div class="chart-grid">
+          <div class="card cream span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">HASIL EVALUASI KERJA</div>
+                <div class="pop-title">Distribusi Rating Performance</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-rating-dist" style="height:380px;"></div>
+          </div>
+          <div class="card pink">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">KINERJA MULTI-DEPARTEMEN</div>
+                <div class="pop-title">Performance per Departemen</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-perf-radar" style="height:350px;"></div>
+          </div>
+          <div class="card cream">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">KORELASI EVALUASI GAJI</div>
+                <div class="pop-title">Performance vs Kompensasi</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-perf-vs-comp" style="height:350px;"></div>
+          </div>
+          <div class="card purple span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">TREND PENILAIAN BULANAN</div>
+                <div class="pop-title">Trend Rata-rata Performance Score</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-perf-trend" style="height:380px;"></div>
+          </div>
+          <div class="card pink span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">PERINTIS UTAMA</div>
+                <div class="pop-title">Top 15 Performers</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-top-performers" style="height:480px;"></div>
+          </div>
+          <div class="card cream span2">
+            <div class="card-header-pop">
+              <div>
+                <div class="pop-sub">KURVA DISTRIBUSI NORMAL</div>
+                <div class="pop-title">Bell Curve — Distribusi Performance</div>
+              </div>
+              <button class="btn-dots">&#8942;</button>
+            </div>
+            <div class="chart-box" id="chart-bell-curve" style="height:380px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================= -->
+      <!-- TAB 6: DATA TABEL -->
+      <!-- ========================================= -->
+      <div class="panel" id="tab-table">
+
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead id="table-head">
+                <tr>
+                  <th>Loading data...</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <tr>
+                  <td class="empty">Generating data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pager" id="pager">
+            <div class="pg-info" id="pg-info"></div>
+            <div class="pg-btns">
+              <button class="pg-btn" id="btn-prev">Sebelumnya</button>
+              <button class="pg-btn" id="btn-next">Selanjutnya</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Floating Page Navigation Buttons (Carousel navigation) -->
+  <button class="nav-btn nav-btn-left" id="btn-nav-prev" title="Previous Page">
+    <i data-lucide="chevron-left"></i>
+  </button>
+  <button class="nav-btn nav-btn-right" id="btn-nav-next" title="Next Page">
+    <i data-lucide="chevron-right"></i>
+  </button>
+
+  <!-- App Logic -->
+  <script type="module" src="js/main.js?v=20260627"></script>
+</body>
+
+</html>
